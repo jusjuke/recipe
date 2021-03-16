@@ -1,5 +1,5 @@
 package kr.co.webmill.recipe.domains;
 
 public enum Difficulty {
-    EASY, MEDIUM, HARD
+    EASY, MODERATE, KIND_OF_HARD, HARD
 }
