@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String description;
     private BigDecimal amount;
     @OneToOne(fetch = FetchType.EAGER)

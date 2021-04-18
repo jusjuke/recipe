@@ -85,6 +85,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacRecipe.setDescription("Perfect Guacamole");
         guacRecipe.setPrepTime(0);
         guacRecipe.setCookTime(10);
+        guacRecipe.setServings(3);
+        guacRecipe.setSource("test source");
+        guacRecipe.setUrl("http://testcook.com");
         guacRecipe.setDifficulty(Difficulty.EASY);
         guacRecipe.setDirections("1 Cut the avocado, remove flesh: Cut the avocados in half. Remove the pit. \n" +
                 "Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon.\n" +
@@ -115,6 +118,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         tacosRecipe.setDescription("Yummy Tacos");
         tacosRecipe.setPrepTime(3);
         tacosRecipe.setCookTime(7);
+        guacRecipe.setServings(4);
+        guacRecipe.setSource("guac source");
+        guacRecipe.setUrl("http://getguack.com");
         tacosRecipe.setDifficulty(Difficulty.KIND_OF_HARD);
         tacosRecipe.setDirections("1 Heat the pan, prep the ingredients\n" +
                 "2 Butter a tortilla and heat it in the pan until it bubbles\n" +

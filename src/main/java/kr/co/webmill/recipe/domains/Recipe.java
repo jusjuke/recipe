@@ -1,6 +1,7 @@
 package kr.co.webmill.recipe.domains;
 
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 @Data
 @Entity
+
 @EqualsAndHashCode(callSuper = false, exclude = {"ingredients", "notes", "categories"})
 @Table(name = "recipe")
 public class Recipe {
@@ -35,6 +37,7 @@ public class Recipe {
     private Difficulty difficulty;
     @Lob
     private Byte[] image;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe", fetch = FetchType.EAGER)

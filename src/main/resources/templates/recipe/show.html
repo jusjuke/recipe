@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Home</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}" ></script>
+</head>
+<body>
+<!--/*@thymesVar id="recipe" type="kr.co.webmill.recipe.domains.Recipe"*/-->
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-md-offset-3">
+            <div class="card mb-3">
+                <div class="card-header bg-primary">
+                    <!--/*@thymesVar id="recipe" type="kr.co.webmill.recipe.domains.Recipe"*/-->
+                    <h class="text-white" th:text="${recipe.description}"></h>
+                </div>
+                <div class="card-block">
+                    <div class="row m-3">
+                        <div class="col-md-3">
+                            <h5>Categories:</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <ul>
+                                <li th:remove="all">cat one</li>
+                                <li th:remove="all">cat one</li>
+                                <!--/*@thymesVar id="recipe" type="kr.co.webmill.recipe.domains.Recipe"*/-->
+                                <li th:each="category : ${recipe.categories}" th:text="${category.getDescription()}">category one</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <div class="col-md-2">
+                            Prep Time:
+                        </div>
+                        <div class="col-md-4" th:text="${(recipe.prepTime) + ' Min'}">
+                            30min
+                        </div>
+                        <div class="col-md-2">
+                            Difficulty:
+                        </div>
+                        <div class="col-md-4" th:text="${recipe.difficulty}">
+                            Easy
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <div class="col-md-2">
+                            Cookie Time:
+                        </div>
+                        <div class="col-md-4" th:text="${(recipe.cookTime) + ' Min'}">
+                            30min
+                        </div>
+                        <div class="col-md-2">
+                            Servings:
+                        </div>
+                        <div class="col-md-4" th:text="${recipe.servings}">
+                            4
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <div class="col-md-2">
+                            Source:
+                        </div>
+                        <div class="col-md-4" th:text="${recipe.source}">
+                            30min
+                        </div>
+                        <div class="col-md-2">
+                            URL:
+                        </div>
+                        <div class="col-md-4" th:text="${recipe.url}">
+                            http://example.com
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header bg-primary">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h class="card-title text-white">Ingredients</h>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" class="btn btn-sm btn-light">Show</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <ul>
+                        <li th:remove="all">cat one</li>
+                        <li th:remove="all">cat one</li>
+                        <li th:each="ingredient : ${recipe.ingredients}" th:text="${ingredient.getDescription() + ' - '
+                        + ingredient.amount + ' ' + ingredient.getUnitOfMeasure().getDescription()}">cat one</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header bg-primary">
+                    <h class="card-title text-white">Directions</h>
+                </div>
+                <div class="card-block">
+                    <div class="row m-2" th:text="${recipe.directions}">
+                        Card columns can also be reached and customized with extra code. Shown below is an addition of the .card-columns class using the corresponding CSS we use—CSS columns— to make a set of responsive tiers for adjusting the number of columns.
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header bg-primary">
+                    <h class="card-title text-white">Notes</h>
+                </div>
+                <div class="card-block">
+                    <div class="row m-2" th:text="${recipe.notes.recipeNotes}">
+                        Card columns can also be reached and customized with extra code. Shown below is an addition of the .card-columns class using the corresponding CSS we use—CSS columns— to make a set of responsive tiers for adjusting the number of columns.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
