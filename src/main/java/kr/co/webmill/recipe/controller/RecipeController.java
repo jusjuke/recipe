@@ -2,6 +2,7 @@ package kr.co.webmill.recipe.controller;
 
 import jdk.nashorn.internal.objects.annotations.Getter;
 import kr.co.webmill.recipe.commands.RecipeCommand;
+import kr.co.webmill.recipe.domains.Difficulty;
 import kr.co.webmill.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
