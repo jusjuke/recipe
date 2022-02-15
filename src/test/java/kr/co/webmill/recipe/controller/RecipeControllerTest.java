@@ -2,6 +2,7 @@ package kr.co.webmill.recipe.controller;
 
 import kr.co.webmill.recipe.commands.RecipeCommand;
 import kr.co.webmill.recipe.domains.Recipe;
+import kr.co.webmill.recipe.exceptions.NotFoundException;
 import kr.co.webmill.recipe.service.RecipeService;
 
 import org.junit.Before;
@@ -40,7 +41,9 @@ public class RecipeControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         recipeController = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(recipeController)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -74,6 +77,7 @@ public class RecipeControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "")
                 .param("description", "some description")
+                .param("directions", "this is direction")
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
@@ -97,4 +101,40 @@ public class RecipeControllerTest {
                 .andExpect(view().name("redirect:/"));
         verify(recipeService, times(1)).deleteRecipeById(anyLong());
     }
+    @Test
+    public void notFoundTest() throws Exception{
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+        mockMvc.perform(get("/recipe/2/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("recipe/404page"));
+    }
+    @Test
+    public void numberFormatExceptionTest() throws Exception{
+        when(recipeService.findById(anyLong())).thenThrow(NumberFormatException.class);
+        mockMvc.perform(get("/recipe/2/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("recipe/400page"));
+    }
+    @Test
+    public void numberFormatExceptionImageTest() throws Exception{
+        mockMvc.perform(get("/recipe/dfdfd/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("recipe/400page"));
+    }
+    @Test
+    public void recipeFormValidFailTest() throws Exception  {
+        RecipeCommand command = new RecipeCommand();
+        command.setId(2L);
+        when(recipeService.saveRecipeCommand(any())).thenReturn(command);
+
+        mockMvc.perform(post("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("cookTime", "3000")
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("recipe"))
+                .andExpect(view().name("recipe/recipeform"));
+    }
+
 }

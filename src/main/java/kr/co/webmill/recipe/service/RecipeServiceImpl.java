@@ -4,6 +4,7 @@ import kr.co.webmill.recipe.commands.RecipeCommand;
 import kr.co.webmill.recipe.converters.RecipeCommandToRecipe;
 import kr.co.webmill.recipe.converters.RecipeToRecipeCommand;
 import kr.co.webmill.recipe.domains.Recipe;
+import kr.co.webmill.recipe.exceptions.NotFoundException;
 import kr.co.webmill.recipe.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(long id) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
         if(!recipeOptional.isPresent()){
-            throw new RuntimeException("Recipe doesn't exist");
+            throw new NotFoundException("Recipe doesn't exist for ID : " + Long.toString(id));
         }
         return recipeOptional.get();
     }

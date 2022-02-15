@@ -4,6 +4,7 @@ import kr.co.webmill.recipe.commands.RecipeCommand;
 import kr.co.webmill.recipe.converters.RecipeCommandToRecipe;
 import kr.co.webmill.recipe.converters.RecipeToRecipeCommand;
 import kr.co.webmill.recipe.domains.Recipe;
+import kr.co.webmill.recipe.exceptions.NotFoundException;
 import kr.co.webmill.recipe.repository.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,10 +16,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -50,6 +54,13 @@ public class RecipeServiceTestIt {
         assertEquals(recipe.getId(), savedRecipeCommand.getId());
         assertEquals(recipe.getCategories().size(), savedRecipeCommand.getCategories().size());
         assertEquals(recipe.getIngredients().size(), savedRecipeCommand.getIngredients().size());
+    }
+    @Test(expected = NotFoundException.class)
+    public void notFoundTest() throws Exception {
+        Optional<Recipe> recipeOptional = Optional.empty();
+        when(recipeService.findById(anyLong())).thenReturn(recipeOptional.get());
+        verify(recipeService, times(1)).deleteRecipeById(anyLong());
+        Recipe recipeReturned = recipeService.findById(1L);
     }
 
 }
